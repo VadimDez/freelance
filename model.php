@@ -148,7 +148,7 @@ class home
 							<div>
 							<pre style="float:right;">' . $row['prezzo'] . '</pre>
 								<a href="project.php?id=' . $row['idProj'] . '"><p>' . $row['nomeProj'] .'</p></a>
-								
+
 							</div>
 							<div>
 								<small><a href="search.php?cat=' . $row['idCat'] . '">' . $row['nomeCat'] . '</a></small>

@@ -1,0 +1,11 @@
+<div align="center">
+	<form name="login" method="post" action="login.php">
+        Username
+        <input name="user" type="text" id="user" value="<?php if(isset($_POST['user'])) echo htmlspecialchars($_POST['user']);?>">Password
+        <input name="pass" type="password" id="pass" >
+        <input name="login" type="submit" id="login" value="Login">
+    </form>
+    <form action="registration.php">
+        <input name="registration" type="submit" id="registration" value="Registrazione">
+    </form>
+</div>

@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
+<body>
+	<?php
+    	include('header.html');
+    ?>
+    
+    <div class="container">
+    	<div class="well">
+        	<legend>Titolo:<a href="profile.php?id=<?php print $winID; ?>"><?php print $projName; ?></a><br /></legend>
+            <span>Fatto da:</span>
+            <div class="media">
+              <a class="pull-left" href="profile.php?id=<?php print $winID; ?>">
+                <img class="media-object" src="<?php print $winImg; ?>" width="64">
+              </a>
+              <div class="media-body">
+                <h4 class="media-heading"><a href="profile.php?id=<?php print $winID; ?>"><?php print $winName . ' ' . $winSecondname; ?></a><br /></h4>
+              </div>
+            </div>
+            <br />
+            <?php
+            	if(!$existFeedBack)
+                {
+                ?>
+            <div id="feedback">
+            	<div id="error"></div>
+                <form>
+                    <legend>Feedback per <a href="profile.php?id=<?php print $winID; ?>"><?php print $winName . ' ' . $winSecondname; ?></a><br /></legend>
+                    <label class="radio inline">
+                      <input type="radio" name="feedValue" id="feedValue" value="+">
+                      <span class="text-success">Positivo</span>
+                    </label>
+                    <label class="radio inline">
+                      <input type="radio" name="feedValue" id="feedValue" value="-">
+                      <span class="text-error">Negativo</span>
+                    </label>
+                    <textarea rows="5" style="width:99%" id="feedText"></textarea>
+                    <input type="hidden" value="<?php print $idProj; ?>" id="proj"  />
+                    <input type="button" id="submit" class="btn btn-success" value="Conferma" />
+                </form>
+            </div>
+            <?php
+            }
+            ?>
+       	</div>
+    </div>
+    
+    <?php
+    	include('footer.html');
+    ?>
+	<script type="text/javascript" src="script/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="script/feedback.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

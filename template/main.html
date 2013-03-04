@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row-fluid">
+    <div class="span9">
+    <form class="form-search" action="search.php" method="get">
+      <input type="text" class="input-medium search-query" name="search">
+	  <button type="submit" class="btn">Search</button>
+	</form>
+      <?php
+      	print "$projects";
+        print $pages;
+      ?>
+    </div>
+    <div class="span3">
+    	<a href="newproj.php"><button class="btn btn-large btn-block" type="button">Nuovo progetto</button></a>
+      	<li class="nav-header">Categorie:</li>
+        <ul class="nav nav-pills nav-stacked">
+        	<?php print $categorie; ?>
+        </ul>
+    </div>
+  </div>
+</div>

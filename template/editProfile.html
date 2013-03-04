@@ -1,0 +1,112 @@
+<div class="container">
+<div class="well">
+<!-- messaggio -->
+
+<?php print "$msg"; ?>
+
+<!-- foto -->
+
+<div align="center">
+	<form action="editprofile.php" enctype="multipart/form-data" method="post" id="pic" name="img">
+	<div>
+    <img src="<?php print "$photo";?>" class="img-polaroid" width="200px"/> <br />
+    <input type="hidden" name="changed" value="imgChanged" />
+    <input type="file" name="imgField" id="imgField" />	
+    <input type="submit" value="Carica" name="imgButton" id="imgButton"  class="btn"/>
+    </div>
+	</form>
+</div>
+
+<!-- fine foto -->
+
+<hr />
+
+<!-- nome e cognome -->
+
+<div>
+	<form action="editprofile.php" method="post" id="nameForm" name="nameForm">
+	<div>
+		Nome:
+        <input type="text" value="<?php print "$name"; ?>" id="name" name="name" maxlength="30"/> 
+        Cognome:
+        <input type="text" value="<?php print "$secondname"; ?>" id="secondname" name="secondname"  maxlength="30" />
+        <input type="hidden" name="changed" value="nameChanged" /><br />
+        <input type="submit" value="Modifica" name="submit" id="submit" class="btn"/>
+
+	</div>
+
+	</form>
+
+</div>
+
+<!-- fine nome e cognome -->
+
+<hr />
+
+<!-- la citta' -->
+
+<div>
+
+	<form action="editprofile.php" method="post" id="countryForm" name="countryForm">
+
+	<div>
+        Citta':
+
+        <input type="text" value="<?php print "$city"; ?>" id="city" name="city" />
+        <input type="hidden" name="changed" value="countryChanged" /><br />
+        <input type="submit" value="Modifica" name="countryButton" id="countryButton"  class="btn"/>
+
+	</div>
+
+	</form>
+
+</div>
+
+<!-- fine citta -->
+
+<hr />
+<!-- data nascita -->
+	<form action="editprofile.php" method="post" id="birthForm" name="birthForm">
+    	Giorno:<input type="number" max="31" min="1" id="day" name="day" value="<?php print "$day";?>"/>
+        Mese:<input type="number" max="12" min="1" id="month" name="month" value="<?php print "$month";?>"/>
+        Anno:<input type="number" max="2005" min="1950" id="year" name="year" value="<?php print "$year";?>"/>
+        <input type="hidden" name="changed" value="birthChanged" /><br />
+        <input type="submit" value="Modifica" name="birthButton" id="birthButton"  class="btn"/>
+    </form>
+<!-- fine data nascita -->
+<hr />
+
+<!-- info -->
+
+<div>
+
+	<form action="editprofile.php" method="post" id="aboutForm" name="aboutForm">
+            <span>Su di me:</span><br/>
+            <textarea name="about" style="width:99%;" maxlength="100"><?php print "$about"; ?></textarea>
+            <input type="hidden" name="changed" value="aboutChanged" /><br/>
+            <input type="submit" value="Modifica" name="aboutButton" id="aboutButton" class="btn" />
+	</form>
+
+</div>
+
+<!-- fine info -->
+
+<hr />
+
+<div>
+    <form acrion="editprofile.php" method="post" id="passForm" name="passForm">
+        <dl class="dl-horizontal">
+          <dt>La password corrente:</dt>
+          <dd><input type="password" id="oldPass" name="oldPass" /></dd>
+          <dt>La nuova password:</dt>
+          <dd><input type="password" id="newPass1" name="newPass1"/></dd>
+          <dt>La nuova password:</dt>
+          <dd><input type="password" id="newPass2" name="newPass2" /></dd>
+        </dl>
+        <input type="submit" value="Modifica"  class="btn"/>
+        <input type="hidden" name="changed" value="passChanged" />
+    </form>
+
+</div>
+</div>
+</div>

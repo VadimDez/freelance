@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Consegna del progetto</title>
+</head>
+
+<body>
+	<?php print $msg; ?>
+	<div align="center">
+        <form action="consegna.php" enctype="multipart/form-data" method="post" id="file" name="file">
+            <div>
+            <input type="file" name="fileField" id="fileField" />	
+            <input type="hidden" name="proj" value="<?php print $idProj; ?>"/>
+            <input type="submit" value="Carica" name="caricamento" id="fileButton"  class="btn"/>
+            </div>
+        </form>
+	</div>
+
+</body>
+</html>

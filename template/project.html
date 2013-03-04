@@ -1,0 +1,174 @@
+<div class="container">
+	<div class="well">
+    	<div class="span2">
+    		<img src="<?php print $imgOwner; ?>" width="100px" class="img-polaroid" />
+        </div>
+        <div class="span7">
+            <?php
+            	
+                print '<a href="profile.php?id=' . $idOwner . '">' . $nameOwner . ' ';
+                print $secondnameOwner . '</a><br />';
+                print '<small>' . $tipoOwner . '</small>';
+            ?>
+        </div>
+        <div class="span2">
+        	<div class="well well-small btn-success" name="prezzo">
+            	<h3 class="text-center">&#128;<?php print $prezzo; ?></h3>
+            </div>
+        
+        	<?php 
+            if(include('check.php'))
+            {
+            	if(!$proprietario)
+                {
+                    if($joined == false)
+                    {
+                        // se non ha ancora partecipato - aggingo bottone se progetto e ancora aperto
+                        if(!$closed)
+                        {
+                            ?>
+                        	<div id="candid">
+                                <a href="#myModal" role="button" class="btn btn-large btn-block btn-success" data-toggle="modal" id="candida">Candidarsi</a>
+                                 
+                                <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h3 id="myModalLabel">La tua proposta</h3>
+                                  </div>
+                                  <div class="modal-body">
+                                    <label>Testo della tua proposta</label>
+                                    <textarea id="text" maxlength="5000" rows="10" style="width:98%"/></textarea>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button class="btn" data-dismiss="modal" aria-hidden="true">Chiudi</button>
+                                    <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" id="candidarsi" data-in="<?php print $idProj; ?>">Candidarsi</button>
+                                  </div>
+                                </div>
+                            </div>
+                        <?php
+                        }
+                    }
+                    else
+                    {
+                        ?>
+                        <div id="rif">
+                            <a href="#myModal" role="button" class="btn btn-large btn-block btn-danger" data-toggle="modal" id="candida">Rifiuta</a>
+                             
+                            <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h3 id="myModalLabel">Cancelare la proposta</h3>
+                              </div>
+                              <div class="modal-body">
+                                <p>Sei sicuro di rifiutare la tua proposta?</p>
+                              </div>
+                              <div class="modal-footer">
+                                <button class="btn" data-dismiss="modal" aria-hidden="true">Chiudi</button>
+                                <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="rifiuta" data-in="<?php print $idProj; ?>">Si</button>
+                              </div>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                }
+                else
+                {
+                	// se E proprietario:
+                    
+                    if($finished)
+                    {
+                    	?>
+                        
+                        <form action="ready.php" method="get">
+                        	<input type="hidden" name="id" value="<?php print $idProj; ?>" />
+                        	<input type="submit" class="btn btn-large btn-block btn-success" value="asd"  />
+                        </form>
+                        
+                        <?php
+                    }
+                    
+                    if($decide && !$pagato)
+                    {
+                    ?>
+                    <!--<form name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                        <input type="hidden" name="cmd" value="_xclick">
+                        <input type="hidden" name="business" value="vasp3d@gmail.com">
+                        <input type="hidden" name="currency_code" value="EUR">
+                        <input type="hidden" name="item_name" value="<?php print $nameProj; ?>">
+                        <input type="hidden" name="item_number" value="<?php print $idProj; ?>">
+                        <input type="hidden" name="amount" value="<?php print $prezzo; ?>">
+                        <input type="hidden" name="rm" value="2">
+                        <input type="hidden" name="no_shipping" value="1">
+                        <input type="hidden" name="return" value="http://localhost/freelance/success.php">
+                        <input type="hidden" name="cancel_return" value="http://localhost/freelance/cancel.php">
+                        <!-- <input type="image" src="http://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!"> -->
+                        <!--<input type="submit" name="submit" class="btn btn-large btn-block btn-success" value="Paga"/>
+					</form>-->
+                    
+                    <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+                    <input type="hidden" name="cmd" value="_xclick">
+                    <input type="hidden" name="business" value="vasp3d_1361219948_biz@gmail.com">
+                    <input type="hidden" name="currency_code" value="EUR">
+                        <input type="hidden" name="item_name" value="<?php print $nameProj; ?>">
+                        <input type="hidden" name="item_number" value="<?php print $idProj; ?>">
+                        <input type="hidden" name="amount" value="<?php print $prezzo; ?>">
+                        <input type="hidden" name="rm" value="2">
+                        <input type="hidden" name="no_shipping" value="1">
+                        <input type="hidden" name="return" value="http://localhost/freelance/sold/success.php">
+                        <input type="hidden" name="cancel_return" value="http://localhost/freelance/project.php?id=<?php print $idProj; ?>">
+                    <input type="submit" name="submit" class="btn btn-large btn-block btn-success" value="Paga"/>
+                    </form>
+
+                    
+					<?php
+                    }
+                    
+                    if(!$closed)
+                    {
+                    ?>
+                    <a href="#myModal" role="button" class="btn btn-large btn-block btn-danger" data-toggle="modal" id="candida">Chiudi</a>
+                         
+                        <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 id="myModalLabel">Chiusura del progetto</h3>
+                          </div>
+                          <div class="modal-body">
+                            <p>Sei sicuro di chiudere annuncio del progetto ?</p>
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn" data-dismiss="modal" aria-hidden="true">Chiudi</button>
+                            <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="chiudi" data-in="<?php print $idProj; ?>">Si</button>
+                          </div>
+                        </div>
+                    <?php
+                    }
+                }
+            }
+            else
+            {
+            	// se utente non e registrato
+            	?>
+                	<a href="registration.php" class="btn btn-large btn-warning">Candidarsi</a>
+                <?php
+            }?>
+            
+            
+        </div>
+        <div></div>
+        <div>
+            <p class="lead"><?php print $nameProj; ?></p>
+            <hr />
+            <dl>
+              <dt>Descrizione:</dt>
+              <dd><?php print $descProj; ?></dd>
+              <dt>Richieste:</dt>
+              <dd><?php print $richesteProj; ?></dd>
+            </dl>
+        </div>
+    </div>
+	<?php 
+    	print "$projects";
+        print "$comments";
+	?>
+</div>

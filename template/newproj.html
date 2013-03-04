@@ -1,0 +1,38 @@
+<div class="container">
+    	<?php 
+        	if($error)
+            {
+        ?>
+            	<div class="alert alert-error">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  <h4>Warning!</h4>
+                  <?php print $error; ?>
+                </div>
+		<?php
+            }
+         ?>
+	<form action="newproj.php" method="post">
+    	Nome del progetto:<br/>
+        <input type="text" name="projName" value="<?php print "$projectName"; ?>" placeholder="Nome del progetto" style="height:30px; width:99%;"><br/>
+        <hr/>
+        
+        Categoria:<br/>
+        <?php print $categorie; ?>
+        <hr/>
+        Prezzo:<br />
+        <!--<input type="number" name="prezzo" value="<?php print "$prezzo"; ?>" placeholder="Inserisci prezzo" style="height:30px;">-->
+        <div class="input-prepend input-append">
+          <span class="add-on">€</span>
+          <input class="span2" id="appendedPrependedInput" type="number" value="<?php print "$prezzo"; ?>" name="prezzo" min="0" max="1000000">
+          <span class="add-on">.00</span>
+        </div>
+        <hr/>
+        Descrizione:<br />
+        <textarea name="d" value="<?php print "$descrizione"; ?>" rows="3" style="width:99%"></textarea>
+        <hr/>
+        Richieste:<br />
+        <textarea name="r" value="<?php print "$richieste"; ?>" rows="3" style="width:99%"	></textarea>
+        <br/>
+        <input type="submit" value="Pubblica" name="done" class="btn btn-success"/>
+    </form>
+</div>

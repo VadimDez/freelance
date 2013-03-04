@@ -1,0 +1,38 @@
+<div class="row-fluid">
+	<div class="row">
+		<div class="span12 navbar">
+        <div class="navbar-inner">
+        	<div class="span3 offset1">
+                <ul class="nav nav-pills">
+                    <li><a href="index.php">iFreelancer</a></li>
+                    <li><a href="users.php">Utenti</a></li>
+                </ul>
+            </div>
+            <div class="span3 offset5">
+            <ul class="nav nav-pills">
+            <?php
+                if(include('check.php'))
+                {
+                    // se utente ha fatto il login
+                    ?>
+                        <li><a href="profile.php">Profile</a></li>
+                        <li><a href="mail.php">Messagi</a></li>
+                        <li><a href="logout.php">Logout</a></li>
+                    <?php
+                }
+                else
+                {
+                    // in caso se utente non ha fatto il login
+                    ?>
+                    <li><a href="registration.php">Registrazione</a></li>
+                    <li><a href="login.php">Login</a></li>
+                <?php
+                }
+            ?>
+            </ul>
+            </div>
+            </div>
+		</div>
+	</div>
+</div>
+

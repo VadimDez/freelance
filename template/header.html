@@ -1,38 +1,29 @@
-<div class="row-fluid">
-	<div class="row">
-		<div class="span12 navbar">
-        <div class="navbar-inner">
-        	<div class="span3 offset1">
-                <ul class="nav nav-pills">
-                    <li><a href="index.php">iFreelancer</a></li>
-                    <li><a href="users.php">Utenti</a></li>
-                </ul>
+<header>
+    <div class="container">
+        <div class="row">
+            <div id="logo" class="span4">
+                <h1><a href="index.php">iFreelancer.it</a></h1>
             </div>
-            <div class="span3 offset5">
-            <ul class="nav nav-pills">
-            <?php
-                if(include('check.php'))
-                {
-                    // se utente ha fatto il login
-                    ?>
-                        <li><a href="profile.php">Profile</a></li>
-                        <li><a href="mail.php">Messagi</a></li>
-                        <li><a href="logout.php">Logout</a></li>
-                    <?php
-                }
-                else
-                {
-                    // in caso se utente non ha fatto il login
-                    ?>
-                    <li><a href="registration.php">Registrazione</a></li>
-                    <li><a href="login.php">Login</a></li>
-                <?php
-                }
-            ?>
-            </ul>
+            <div class="offset3 span4">
+                <div class="navbar">
+                    <div class="navbar-inner">
+                        <div class="container">
+                            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
+                            <div class="nav-collapse">
+                                <ul class="nav">
+                                    <li><a href="index.php"><i class="icon-home icon-white"></i></a></li>
+                                    <li><a href="users.php">Utenti</a></li>
+                                    <?php
+                                        include_once('model.php');
+                                        $header = new myHeader();
+                                        print $header->left();
+                                    ?>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            </div>
-		</div>
-	</div>
-</div>
-
+        </div>
+    </div>
+</header>

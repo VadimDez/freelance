@@ -1,44 +1,67 @@
 <?php
     session_start();
-	include('dbConnect.php');
-	include('model.php');
-	
+
+    //setcookie("PHPSESSID","",time()-3600,"/");
+
+	include_once('model.php');
+	include_once('check.php');
 	$home = new home;
 	$conn = new myConnection;
+    $pars = new parser();
 	$conn->connect();
-	
+
     // categorie
 	$categorie = $home->categorie();
-	$projects = $home->annunci();
-	
+	//$projects = $home->annunci();
+
+    // progetti
 	if(isset($_GET['page']))
 	{
-        $projects = $home->annunci($_GET['page']);
-		$pages = $home->pageCounter($_GET['page']);
+        // prendo solo i numeri
+        $page = filter_var($_GET['page'], FILTER_SANITIZE_NUMBER_INT);
+
+        // se non ci sono numeri - la stringa diventa vuota
+        if($page == '')
+        {
+            // e se vuota -
+            $page = 1;
+        }
+
+        $projects = $home->annunci($page);
+		$pages = $home->pageCounter($page);
 	}
 	else
 	{
         $projects = $home->annunci();
 		$pages = $home->pageCounter();
 	}
+
+
 	$conn->close();
+
+    $randomUsers = $home->randomUsers();
+
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="it" xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html lang="it">
 	<head>
     	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Home page</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <link rel="stylesheet" type="text/css" href="style/main.css" >
+        <title>iFreelancer.it - Lavoro, freelance e sponsorizzazione in Italia</title>
+        <?php include_once('include.php'); ?>
+        <script type="text/javascript" src="js/bootstrap-carousel.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('.carousel').carousel();
+            });
+        </script>
     </head>
-    <body>
+    <body id="render">
+    <div id="fb-root"></div>
             <?php
-				include('template/header.html');
-			 	include('template/main.html'); 
-				include('template/footer.html'); 
+				include_once('template/header.html');
+			 	include_once('template/main.html');
+				include_once('template/footer.html');
 			?>
-            <script src="bootstrap/js/bootstrap.min.js"></script>
     </body>
 </html>

@@ -1,39 +1,52 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Untitled Document</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <link rel="stylesheet" type="text/css" href="style/main.css" >
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Ricerca</title>
+    <?php include('include.php'); ?>
+
 </head>
 
 <body>
-	<?php
+<?php
     	include('template/header.html');
 	?>
-	<div class="container">
-      <div class="row-fluid">
-        <div class="span9">
-        <form class="form-search" action="search.php" method="get">
-       	  <input type="text" class="input-medium search-query" name="search">
-		  <button type="submit" class="btn">Search</button>
-		</form>
-          <?php print $risultato; ?>
+<div class="show-of-head">
+        <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="span9">
+                    <div class="span12">
+                        <form class="form-search span8" action="search.php" method="get">
+                            <div class="input-append">
+                                <input type="text" class="span7 search-query" name="search" placeholder="Cerca">
+                                <button type="submit" class="btn"><i class="icon-search"></i>Search</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="span8">
+                        <?php print $risultato; ?>
+                    </div>
+                    <div class="span8">
+                        <?php print $pages; ?>
+                    </div>
+                </div>
+                <div class="span3 bs-docs-sidebar">
+                    <a href="newproj.php" class="btn btn-large btn-block"><i class="icon-pencil"></i>Nuovo progetto</a>
+                    <hr>
+                    <ul class="nav nav-list well">
+                        <li class="nav-header">Categorie:</li>
+                        <?php print $categorie; ?>
+                    </ul>
+                </div>
+            </div>
+
         </div>
-        <div class="span3">
-            <a href="newproj.php"><button class="btn btn-large btn-block" type="button">Nuovo progetto</button></a>
-            <li class="nav-header">Categorie:</li>
-            <ul class="nav nav-pills nav-stacked">
-                <?php print $categorie; ?>
-            </ul>
-        </div>
-      </div>
-    </div>
-    	
-	<?php
+    </section>
+</div>
+
+<?php
         include('template/footer.html');
 	?>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

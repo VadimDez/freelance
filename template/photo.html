@@ -1,14 +1,29 @@
-<?php print "$back"; ?>
-        <ul class="pager">
-          <li class="previous">
-            <a href="<?php print $prev; ?>">&larr; Prec.</a>
-          </li>
-          <li class="next">
-            <a href="<?php print $next; ?>">Succ. &rarr;</a>
-          </li>
-        </ul>
-        
-        <div id="visual" align="center">
-        <?php print "$photo"; ?>
+<div class="show-of-head">
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <?php print "$back"; ?>
+                    <ul class="pager">
+                        <li class="previous">
+                            <a href="<?php print $prev; ?>">&larr; Prec.</a>
+                        </li>
+                        <li class="next">
+                            <a href="<?php print $next; ?>">Succ. &rarr;</a>
+                        </li>
+                    </ul>
+
+                    <div id="visual" align="center">
+                        <?php print "$photo"; ?>
+                    </div>
+                    <br/>
+                    <div class="well">
+                        <?php print "$descr"; ?>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="leftClear"><?php print "$descr"; ?></div>
+    </section>
+</div>
+
+

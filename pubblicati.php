@@ -84,30 +84,32 @@
 	
 	
 ?>
-<div class="span12">
-<?php
-if($count == 0)
-{
-	print $risultato;
-}
-else
-{
-	?>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Titolo</th>
-          <th>Stato</th>
-          <th>Prezzo</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php print $risultato; ?>
-      </tbody>
-    </table>
-    <?php
-}
-?>
+<div class="row">
+    <div class="span11">
+        <?php
+        if($count == 0)
+        {
+            print $risultato;
+        }
+        else
+        {
+            ?>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Titolo</th>
+                    <th>Stato</th>
+                    <th>Prezzo</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <?php print $risultato; ?>
+                </tbody>
+            </table>
+            <?php
+        }
+        ?>
+    </div>
 </div>
 
 

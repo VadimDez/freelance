@@ -1,0 +1,27 @@
+Order allow,deny
+Deny from all
+
+<FilesMatch "\.(php)$|^$">
+   Order deny,allow
+   Allow from all
+</FilesMatch>
+
+<FilesMatch "model.php">
+   Order deny,allow
+   Deny from all
+</FilesMatch>
+
+<FilesMatch "googlec7c46add750cf7e2.html">
+   Order deny,allow
+   Allow from all
+</FilesMatch>
+
+<FilesMatch "ifreelancer.it_sitemap.xml">
+   Order deny,allow
+   Allow from all
+</FilesMatch>
+
+<FilesMatch "cv.pdf">
+   Order deny,allow
+   Allow from all
+</FilesMatch>

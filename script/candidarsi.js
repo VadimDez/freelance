@@ -11,7 +11,8 @@ $(document).ready(function () {
             success: function (result) {
 				if(result)
 				{
-					$(this).html('<div class="exit" data-in="' + idProj +'" usr="' + idUser + '" ><input type="button" value="Esci" /></div>');
+					//$(this).html('<div class="exit" data-in="' + idProj +'" usr="' + idUser + '" ><input type="button" value="Esci" /></div>');
+                    location.reload();
 				}
             },
 			error: function(){

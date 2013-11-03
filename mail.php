@@ -3,12 +3,12 @@ if(include('check.php'))
 {
 	
 	include_once('pick.php');
-	
+    include_once('model.php');
 	$query   = "";
 	$msgForm = "";
 	$list    = "";
 	$sender = $_SESSION['idUser'];
-	
+
 	
 	// controllo se utente ha premuto il tasto "Scrivi messaggio" dal profile
 	if(isset($_POST['msg']))
@@ -27,10 +27,10 @@ if(include('check.php'))
 				// salvo informazioni sul utente che ricevera il messaggio
 				while($row = mysql_fetch_assoc($query))
 				{
-					$idUser = $row['idUser'];
-					$name = $row['name'];
-					$secondname = $row['secondname'];
-					$image = $row['img'];
+					$idReceiver = $row['idUser'];
+					$nameReceiver = $row['name'];
+					$secondnameReceiver = $row['secondname'];
+					$imageReceiver = $row['img'];
 				}
 				
 				// se utente non ha ancora spedito il messaggio, ma ha solo cliccato sul bottono "scrivi messaggio"
@@ -54,26 +54,24 @@ if(include('check.php'))
 					
 					$msgForm = '<ul class="media-list">
 					  <li class="media">
-						<a class="pull-left" href="profile.php?id=' . $idUser . '">
-						  <img class="media-object" src="' . $image . '" width="100px">
+						<a class="pull-left" href="profile.php?id=' . $idReceiver . '">
+						  <img class="media-object" src="' . $imageReceiver . '" width="100px" alt="">
 						</a>
 						<div class="media-body">
-						  <h5 class="media-heading">Messaggio a:<a href="profile.php?id=' . $idUser . '">' . $name . ' ' . $secondname . '</a></h5>
-						  	<form action="mail.php?id=' . $idUser . '" method="post">
+						  <h5 class="media-heading">Messaggio a:<a href="profile.php?id=' . $idReceiver . '">' . $nameReceiver . ' ' . $secondnameReceiver . '</a></h5>
+						  	<form action="mail.php?id=' . $idReceiver . '" method="post">
 								<div class="row-fluid">
 									<div class="span11">
 										' . $txt . '
 									</div>
 									<div class="span11">
 										<textarea name="textToSend" rows="7" style="width:99%" placeholder="Messaggio..."></textarea>
-										<input type="hidden" value="sended" name="msg" id="msg" />
+										<input type="hidden" value="sended" name="msg" />
 										<p class="text-right">
-											<input type="submit" value="Scrivi" class="btn btn-primary"/>
+											<input type="submit" value="Scrivi" class="btn btn-inverse"/>
 										</p>
 									</div>
 								</div>
-								
-								
 							</form>
 						</div>
 					  </li>
@@ -94,7 +92,6 @@ if(include('check.php'))
 						$textTosend = preg_replace('/\'/i','&#39', $textTosend);
 						$textTosend = preg_replace('/`/i','', $textTosend);
 						$textTosend = mysql_real_escape_string($textTosend);
-						
 						
 						$query = mysql_query("INSERT INTO messaggi(idSender, idReceiver, time, text) VALUES('$sender', '$idUser', now(), '$textTosend')") or die (mysql_error());
 						header("Location: mail.php"); //redirect
@@ -133,7 +130,9 @@ if(include('check.php'))
 		{
 			//lista per gli utenti
 			$list ='';
-			
+
+            $parser = new parser();
+
 			$query = mysql_query($query2)  or die (mysql_error());
 			while($row = mysql_fetch_array($query))
 			{
@@ -146,25 +145,25 @@ if(include('check.php'))
 				$time           = $row['time'];
 				$read           = $row['read'];
 				//$time       = strftime("%H:%M:%S, %b, %d. %Y", strtotime($time)+("7:0:0, 0, 0, 0")); // per il server
-				$time           = strftime("%H:%M:%S, %b, %d. %Y", strtotime($time));
+				$time           = strftime("%H:%M:%S, %d %b %Y", strtotime($time));
 				
 				$text           = $row['text'];
 				//parsing
-				$text = stripslashes($text);
+                $text = $parser->textParsing($text);
+
+				/*$text = stripslashes($text);
 				$text = strip_tags($text);
 				$text = mysql_real_escape_string($text);
 				$text = trim($text, '\r\n');
 				$text = preg_replace('/\'/i','&#39', $text);
 				$text = preg_replace('/`/i','', $text);
-				$text = mysql_real_escape_string($text);
+				$text = mysql_real_escape_string($text);*/
 				
 				
-				$idStyle = "postsParts"; // lo stile per messaggi letti
-				$borders = "borders";
+				$idStyle = "well"; // lo stile per messaggi letti
 				if($read == "0") // se messaggio non letto - cambia colore
 				{
-					$idStyle = "postsPartsNew";
-					$borders = "bordersNew";
+					$idStyle = "newMsg";
 				}
 				
 				
@@ -178,16 +177,26 @@ if(include('check.php'))
 				{
 					$idUser = $idSender; // se e' posta in arrivo, devo vedere chi l'ha spedito
 				}
-				
-				$list .= '<div id="' . $idStyle . '"><a href="profile.php?id=' .  $idUser  . '">' . $userName . ' ' . $userSecondname . '</a><span id="time">' . $time . '</span></div>
-				<div id="' . $borders . '"><div id="postsCont" style="float: left;"><img src="' . $userImg . '"></div>
-				<div id="postsCont"><div id="bodyMsg">' . $text . '</div></div></div>
-				<div id="' . $idStyle . '" align="right">
-				<form align="right" action="mail.php?id=' . $idUser . '" method="post">
-				<input type="hidden" value="msg" name="msg" id="msg" />
-				<textarea name="txtMsg" style="display: none;">' . $text . '</textarea>
-				<textarea name="idMsg" style="display: none;">' . $idMsg . '</textarea>
-				<input type="submit" value="Leggi" class="button" ></form></div><br/>';
+
+                $list .=    '<div class="media ' . $idStyle . '">
+                              <a class="pull-left" href="#">
+                                <img class="media-object img-polaroid" src="' . $userImg . '" width="64" height="64" alt="">
+                              </a>
+                              <div class="media-body">
+                                <h4 class="media-heading"><a href="profile.php?id=' .  $idUser  . '">' . $userName . ' ' . $userSecondname . '</a></h4>
+
+                                <div>
+                                ' . $text . '
+                                    <hr/>
+                                    <small style="float:left;">' . $time . '</small>
+                                    <form class="pull-right" action="mail.php?id=' . $idUser . '" method="post">
+                                    <input type="hidden" value="msg" name="msg" />
+                                    <textarea name="txtMsg" style="display: none;">' . $text . '</textarea>
+                                    <textarea name="idMsg" style="display: none;">' . $idMsg . '</textarea>
+                                    <input type="submit" value="Rispondi" class="btn btn-inverse" ></form>
+                                </div>
+                              </div>
+                            </div>';
 			}
 			$list .= '';
 			
@@ -218,49 +227,62 @@ else
 <html>
     <head>
         <title>Messaggi</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <?php include('include.php'); ?>
         <link rel="stylesheet" type="text/css" href="style/main.css" >
         <link rel="stylesheet" type="text/css" href="style/msgs.css" >
     </head>
 
     <body>
+    <div id="render">
         <?php include('template/header.html'); ?>
-        <div class="container">
-            <div class="well">
-                <?php
-                if($msgForm != "")
-                {
-                    print "$msgForm";
-                }
-                else
-                {
-                    print '<div style="float: left;">';
-                    // tasto posta in arrivo
-                    
-                    print '<form action="mail.php">
-                    <input type="submit" value="Posta in arrivo" class="button">
-                    </form>';
-                    print '</div>';
-                    
-                    print '<div>';
-                    // tasto messaggi inviati
-                    print '<form action="mail.php?id=' . $idUser . '" method="post">
-                    <input type="hidden" value="msgSended" name="msgSend" id="msgSend" />
-                    <input type="submit" value="Messaggi inviati" name="submit" id="submit" class="button">
-                    </form>';
-                    print '</div>';
+        <div class="show-of-head">
+            <section class="content">
+                <div class="container">
+                    <div class="row">
+                        <div class="span9 offset1 well">
+                            <?php
+                            if($msgForm != "")
+                            {
+                                print "$msgForm";
+                            }
+                            else
+                            {
+                                // bottoni posta in arr, posta spedita
+                                ?>
 
-                    //la lista dei messaggi;
-                    print "$list";
-                }
-                
-                ?>
-                <div heigh="10px">&#160;</div> <!-- lo spazio -->
-            </div>
+                                <ul class="nav nav-tabs">
+                                    <li>
+                                        <form action="mail.php" method="post">
+                                            <button type="submit" class="btn btn-inverse"><i class="icon-arrow-down icon-white"></i>Messaggi in arrivo</button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form action="mail.php" method="post">
+                                            <input type="hidden" value="msgSended" name="msgSend" id="msgSend" />
+                                            <button type="submit" class="btn btn-inverse"><i class="icon-arrow-up icon-white"></i>Messaggi inviati</button>
+                                        </form>
+                                    </li>
+                                </ul>
+
+                                <?
+                                //la lista dei messaggi;
+                                print "$list";
+                            }
+                            ?>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </section>
         </div>
-        <?php include('template/footer.html'); ?>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <div heigh="10px">&#160;</div> <!-- lo spazio -->
+    </div>
+    </div>
+    </div>
+    <?php include('template/footer.html'); ?>
     </body>
 
 </html>

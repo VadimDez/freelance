@@ -1,11 +1,35 @@
-<div align="center">
-	<form name="login" method="post" action="login.php">
-        Username
-        <input name="user" type="text" id="user" value="<?php if(isset($_POST['user'])) echo htmlspecialchars($_POST['user']);?>">Password
-        <input name="pass" type="password" id="pass" >
-        <input name="login" type="submit" id="login" value="Login">
-    </form>
-    <form action="registration.php">
-        <input name="registration" type="submit" id="registration" value="Registrazione">
-    </form>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>
+        Login - ifreelancer.it
+    </title>
+
+    <?php include_once('include.php'); ?>
+</head>
+<body>
+<?php @include_once('header.html'); ?>
+<div class="show-of-head">
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <br/>
+                <div class="span4 offset4 well">
+                    <legend>Login</legend>
+                    <?php print $printError; ?>
+                    <form method="POST" action="login.php" name="login" accept-charset="UTF-8">
+                        <input type="text" id="user" class="span4" name="user" placeholder="Username" maxlength="100">
+                        <input type="password" id="pass" class="span4" name="pass" placeholder="Password" maxlength="100">
+                        <button type="submit" name="login" class="btn btn-success btn-block">Login</button>
+                    </form>
+                    <form action="registration.php" method="get">
+                        <button type="submit" class="btn btn-info btn-block">Registrazione</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
+<?php include('footer.html'); ?>
+</body>

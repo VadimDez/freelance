@@ -1,131 +1,165 @@
-<div class="container">
-	<div class="row-fluid">
-    	<div class="span3">
-        	<img src="<?php print "$photo"; ?>" width="200" height="200" class="img-polaroid"/><br/>
+<div class="show-of-head">
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="span12 well">
+                    <div class="span3">
+                        <img src="<?php print $photo; ?>" class="img-polaroid ava" alt=""/><br/>
+                    </div>
+                    <div class="span8">
+                        <strong><?php print "$name $secondname"; ?></strong>
+                        <?php
+                        if($idUser == $_SESSION['idUser'])
+                        {
+                        ?>
+                        [ <a href="editprofile.php">Modifica profilo</a> ]
+                        <?php
+                        }
+                        ?>
+                        <br/>
+                        <div class="span4">
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td>Data di nascita:</td>
+                                    <td><?php print "$day.$month.$year";?></td>
+                                </tr>
+                                <tr>
+                                    <td>Citta':</td>
+                                    <td><?php print $city;?></td>
+                                </tr>
+                                <tr>
+                                    <td>Tipo:</td>
+                                    <td><?php if($tipo == 0)
+                                                {
+                                                print "Privato";
+                                                }
+                                                else
+                                                {
+                                                print "Azienda";
+                                                } ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Data registrazione:</td>
+                                    <td><?php print $dataReg;?></td>
+                                </tr>
+                                <tr>
+                                    <td>Numero dei progetti partecipanti:</td>
+                                    <td><?php print $numProjPart;?></td>
+                                </tr>
+                                <tr>
+                                    <td>Numero dei progetti vinti:</td>
+                                    <td><?php print $numProjWin;?></td>
+                                </tr>
+                                <tr>
+                                    <td>Numero dei progetti pubblicati:</td>
+                                    <td><?php print $numProjPubb;?></td>
+                                </tr>
+                                <tr>
+                                    <td>Feedback positivi:</td>
+                                    <td><i class="icon-thumbs-up"></i><?php print $feedPos;?></td>
+                                </tr>
+                                <tr>
+                                    <td>Feedback negativi:</td>
+                                    <td><i class="icon-thumbs-down"></i><?php print $feedNeg;?></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="span3">
+                            <?php
+                if($idUser != $_SESSION['idUser'])
+                {
+                ?>
+                            <form action="mail.php?id=<?php print $idUser; ?>" method="post">
+                                <input type="hidden" value="msg" name="msg" id="msg" />
+                                <input type="submit" value="Scrivi messaggio" class="btn btn-large btn-block"/>
+                            </form>
+                            <?php
+                }
+                ?>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <div class="tabbable span11">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab1" data-toggle="tab">SU DI ME</a></li>
+                            <li><a href="#tab2" data-toggle="tab" onclick="porta();">PORTFOLIO</a></li>
+                            <li><a href="#tab3" data-toggle="tab" onclick="part();">PARTECIPAZIONI</a></li>
+                            <li><a href="#tab4" data-toggle="tab" onclick="svolti();">PROGETTI SVOLTI<?php
+                            if($_SESSION['idUser'] == $idUser)
+                            {
+                                if($numProjDaCons > 0)
+                                {
+                                print ' <span class="badge badge-important">' . $numProjDaCons . '</span>';
+                                }
+                                }
+                                ?></a></li>
+                            <li><a href="#tab5" data-toggle="tab" onclick="pubb();">PROGETTI PUBBLICATI
+                                <?php
+                                if($numProjPubbOpen > 0)
+                                {
+                                print ' <span class="badge badge-important">' . $numProjPubbOpen . '</span>';
+                                }
+                                ?>
+                            </a></li>
+                            <li><a href="#tab6" data-toggle="tab" onclick="feed();">FEEDBACK</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab1">
+                                <p><?php print $info; ?></p>
+                            </div>
+                            <div class="tab-pane" id="tab2">
+                                <p id="porta"></p>
+                            </div>
+                            <div class="tab-pane" id="tab3">
+                                <p id="partecip"></p>
+                            </div>
+                            <div class="tab-pane" id="tab4">
+                                <p id="svolti"></p>
+                            </div>
+                            <div class="tab-pane" id="tab5">
+                                <p id="pubb"></p>
+                            </div>
+                            <div class="tab-pane" id="tab6">
+                                <p id="feed"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
-        <div class="span9">
-        	<strong><?php print "$name $secondname"; ?></strong>
-            <?php
-            	if($idUser == $_SESSION['idUser'])
-                {
-                	?>
-                    [ <a href="editprofile.php">Modifica profilo</a> ]
-                    <?php
-                }
-            ?>
-            <br/>
-            <div class="span4">
-                Data di nascita:<br/>
-                Citta':<br/>
-                Tipo:<br/>
-                Data registrazione:<br/>
-                Numero progetti partecipanti:<br/>
-                Numero progetti vinti:<br/>
-                Numero progetti pubblicati:<br/>
-                Altre info...
-            </div>
-            <div class="span2">
-                <?php
-                print "$day.$month.$year<br/>";
-                print "$city<br/>"; 
-                if($tipo == 0)
-                {
-                    print "Privato";
-                }
-                else
-                {
-                    print "Azienda";
-                }
-                print "<br/>$dataReg<br/>";
-                print "$numProjPart<br/>";
-                print "$numProjWin<br/>";
-                print "$numProjPubb<br/>";
-                ?><br/>
-            </div>
-            <div class="span4">
-                <form action="mail.php" method="post">
-                    <input type="hidden" value="msg" name="msg" id="msg" />
-                    <input type="submit" value="Scrivi messaggio" class="btn btn-large btn-block"/>
-                </form>
-                <b class="text-success">Pos: <?php print $feedPos; ?></b> <b class="text-error"> Neg: <?php print $feedNeg; ?></b>
-            </div>
-        </div>
-    </div>
-    <div class="row-fluid">
-        <br/>
-        <div class="tabbable">
-          <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab1" data-toggle="tab">SU DI ME</a></li>
-            <li><a href="#tab2" data-toggle="tab" onclick="porta();">PORTOFOLIO</a></li>
-            <li><a href="#tab3" data-toggle="tab" onclick="part();">PARTECIPAZIONI</a></li>
-            <li><a href="#tab4" data-toggle="tab" onclick="svolti();">PROGETTI SVOLTI<?php
-            if($_SESSION['idUser'] == $idUser)
-            {
-                if($numProjDaCons > 0)
-                {
-                    print ' <span class="badge badge-important">' . $numProjDaCons . '</span>';
-                }
-            }
-            ?></a></li>
-            <li><a href="#tab5" data-toggle="tab" onclick="pubb();">PROGETTI PUBBLICATI
-            <?php
-            	if($numProjPubbOpen > 0)
-                {
-                	print ' <span class="badge badge-important">' . $numProjPubbOpen . '</span>';
-                }
-            ?>
-            </a></li>
-            <li><a href="#tab6" data-toggle="tab" onclick="feed();">FEEDBACK</a></li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane active" id="tab1">
-              <p><?php print $info; ?></p>
-            </div>
-            <div class="tab-pane" id="tab2">
-              <p id="porta"></p>
-            </div>
-            <div class="tab-pane" id="tab3">
-              <p id="partecip"></p>
-            </div>
-            <div class="tab-pane" id="tab4">
-              <p id="svolti"></p>
-            </div>
-            <div class="tab-pane" id="tab5">
-              <p id="pubb"></p>
-            </div>
-            <div class="tab-pane" id="tab6">
-              <p id="feed"></p>
-            </div>
-          </div>
-        </div>
-    </div>
+    </section>
+
+    <script type="text/javascript">
+
+        function porta() {
+            $("#porta").load("albums.php?id=<?php print $idUser; ?>", function() {
+                $('#porta').find('#albums').addClass('albums');
+            });
+
+        };
+
+        function part() {
+            $("#partecip").load("participation.php?id=<?php print $idUser; ?>", function() {
+            });
+        };
+
+        function svolti() {
+            $("#svolti").load("svolti.php?id=<?php print $idUser; ?>", function() {
+            });
+        };
+
+        function feed() {
+            $("#feed").load("feed.php?id=<?php print $idUser; ?>", function() {
+            });
+        };
+
+        function pubb()
+        {
+            $("#pubb").load("pubblicati.php?id=<?php print $idUser; ?>", function(){});
+        };
+    </script>
 </div>
-
-
-<script type="text/javascript">
-
-function porta() {
-    $("#porta").load("albums.php?id=<?php print $idUser; ?>", function() {
-});
-};
-
-function part() {
-    $("#partecip").load("participation.php?id=<?php print $idUser; ?>", function() {
-});
-};
-
-function svolti() {
-    $("#svolti").load("svolti.php?id=<?php print $idUser; ?>", function() {
-});
-};
-
-function feed() {
-    $("#feed").load("participation.php?id=<?php print $idUser; ?>", function() {
-});
-};
-
-function pubb()
-{
-	$("#pubb").load("pubblicati.php?id=<?php print $idUser; ?>", function(){});
-};
-</script>

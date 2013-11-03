@@ -10,14 +10,12 @@ if(isset($_POST['data']) && isset($_POST['type']) && isset($_POST['user']))
     $type = '';
     if($_POST['type'] == 'join')
     {
-        $type = 'likes';
 		echo json_encode(true);
     }
     else
     {
         if($_POST['type'] == 'exit')
         {
-            $type = 'dislikes';
 			echo json_encode(true);
         }
     }

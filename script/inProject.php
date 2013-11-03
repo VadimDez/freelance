@@ -10,6 +10,11 @@
 			$connect->connect();
 			$idUser = $_SESSION['idUser'];
 			$text 	= $_POST['text'];
+
+            $parser = new parser();
+
+            $text = $parser->textParsing($text);
+
 			$idProj = $_POST['idProj'];
 			if($_POST['type'] == "join" && isset($_POST['text']))
 			{

@@ -8,24 +8,31 @@ if(include('check.php'))
 	if(isset($_POST['add']))
 	{
 		$nameAlbum = $_POST['nameAlbum'];
-		$idUser        = $_SESSION['idUser'];
-		
-		// parsing
-		$nameAlbum = stripslashes($nameAlbum);
-		$nameAlbum = strip_tags($nameAlbum);
-		$nameAlbum = mysql_real_escape_string($nameAlbum);
-		$nameAlbum = trim($nameAlbum, '\r\n');
-		$nameAlbum = preg_replace('/\'/i','&#39', $nameAlbum);
-		$nameAlbum = preg_replace('/`/i','', $nameAlbum);
-		$nameAlbum = mysql_real_escape_string($nameAlbum);
-		// fine parsing
-		
-		mysql_query("INSERT INTO albums(idAlbum, idUser, nameAlbum) VALUES(NULL, '$idUser', '$nameAlbum')") or die(mysql_error());
-		$query = mysql_query("SELECT idAlbum FROM albums WHERE idUser='$idUser' ORDER BY dataAlbum DESC LIMIT 1") or die(mysql_error());
-		$query = mysql_fetch_assoc($query);
-		mysql_close();
-		header('location:albums.php?id=' . $query['idAlbum']);
-		exit();
+		if(strlen($nameAlbum) > 0)
+        {
+            $idUser        = $_SESSION['idUser'];
+
+            // parsing
+            $nameAlbum = stripslashes($nameAlbum);
+            $nameAlbum = strip_tags($nameAlbum);
+            $nameAlbum = mysql_real_escape_string($nameAlbum);
+            $nameAlbum = trim($nameAlbum, '\r\n');
+            $nameAlbum = preg_replace('/\'/i','&#39', $nameAlbum);
+            $nameAlbum = preg_replace('/`/i','', $nameAlbum);
+            $nameAlbum = mysql_real_escape_string($nameAlbum);
+            // fine parsing
+
+            mysql_query("INSERT INTO albums(idAlbum, idUser, nameAlbum, dataAlbum) VALUES(NULL, '$idUser', '$nameAlbum', now())") or die(mysql_error());
+            $query = mysql_query("SELECT idAlbum FROM albums WHERE idUser='$idUser' ORDER BY dataAlbum DESC LIMIT 1") or die(mysql_error());
+            $query = mysql_fetch_assoc($query);
+            header('location:albums.php?album=' . $query['idAlbum']);
+            mysql_close();
+            exit();
+        }
+        else
+        {
+            $error = '<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">×</a><span>Inserisci correttamente nome dell\'album</span><br/></div>';
+        }
 	}
 }
 else
@@ -41,7 +48,7 @@ else
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Untitled Document</title>
-<link rel="stylesheet" type="text/css" href="style/main.css" >
+    <?php include('include.php'); ?>
 </head>
 
 <body>

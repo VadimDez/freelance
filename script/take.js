@@ -11,6 +11,7 @@ $(document).ready(function() {
             context: this,
             success: function () {
 				$('#take').parents('#choose').html('');
+                location.reload();
             }
         });
 		

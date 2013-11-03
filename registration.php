@@ -1,22 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="it" xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE HTML>
+<html lang="it">
 	<head>
     	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Registrazione</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <?php include('include.php'); ?>
 </head>
 <body >
 
 <?php
 	if(!@include('check.php'))
 	{
-		@include('template/header.html');
-		include('dbConnect.php');
+		@include_once('template/header.html');
+		include_once('dbConnect.php');
 		if(!isset($_POST['register']))
 		{
-			include('template/registrationForm.html');
-			include('template/footer.html');
+			include_once('template/registrationForm.html');
+			include_once('template/footer.html');
 		}
 		else
 		{
@@ -41,7 +40,16 @@
 					$errore[] = "Cognome deve essere piu' lungo di due lettere";
 				}
 			}
-			
+
+            if(!isset($_POST['checkbox']) && $_POST['checkbox'] == false)
+            {
+                $error[] = "Devi essere d'accordo con il nostro regolamento";
+            }
+
+            if(!isset($_POST['email']) && strlen($_POST['email']) > 0)
+            {
+                $error[] = "Inserisci la tua e-mail.";
+            }
 			
 			if (strlen($_POST['user']) < 3 || strlen($_POST['user']) > 18 || !preg_match('/^[0-9a-zA-Z]+$/',$_POST['user']) || !isset($_POST['user']))
 			{
@@ -77,27 +85,27 @@
 			{
 				if(is_array($error))
 				{
-					print "<br /><div>";
-					foreach ($error as $ers)
-					{
-	
-						echo "<span>".$ers."</span><br/>";
-	
-					}
-					echo "</div>";
-					print "<br />";
-					include('template/registrationForm.html');
-					include('template/footer.html');
+                    $printError = '<div class="alert alert-error">
+                        <a class="close" data-dismiss="alert" href="#">×</a>';
+                    foreach ($error as $ers)
+                    {
+                        $printError .= "<span>".$ers."</span><br/>";
+                    }
+                    $printError .= '</div>';
+					include_once('template/registrationForm.html');
+					include_once('template/footer.html');
 				}
 			}
 			
 			if(!isset($error))
 			{
-				$username   = mysql_real_escape_string($_POST['user']);
+                include_once('model.php');
+                $parser = new parser();
+                $username = $parser->textParsing($_POST['user']);
 				$pass       = md5($_POST['password']);// MD5
-				$name       = mysql_real_escape_string($_POST['name']);
-				$secondname = mysql_real_escape_string($_POST['secondname']);
-				$city		= mysql_real_escape_string($_POST['city']);
+				$name       = $parser->textParsing($_POST['name']);
+				$secondname = $parser->textParsing($_POST['secondname']);
+				$city		= $parser->textParsing($_POST['city']);
 				$tipo		= mysql_real_escape_string($_POST['tipo']);
 				
 				//$ip         = mysql_real_escape_string($_SERVER['HTTP_HOST']);
@@ -105,14 +113,14 @@
 				$query = mysql_query("INSERT INTO `users` (`idUser`, `username`, `password`, `name`, `secondname`, `city`, `tipo`, `dataRegistrazione`) VALUES (NULL, '$username', '$pass', '$name', '$secondname', '$city', '$tipo', now())") or die(mysql_error());
 				if($query)
 				{
-					print "<br/><div><span>Complimenti hai creato l'account!<br/><span>Ora puoi fare <a href=\"login.php\">il login</a>.</span><br/></div>";
+					print '<br/><div class="alert alert-success"><span>Complimenti hai creato l\'account!<br/></div>';
 					include_once('login.php');
 				}
 				else
 				{
-					
-					print "<div><span>Errore!</span></div>";
-	
+                    $printError = '<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">×</a>';
+                    $printError .= "<span>Errore!</span><br/>";
+                    $printError .= '</div>';
 				}
 			}
 		}
@@ -123,8 +131,6 @@
 	}
 ?>
 
-     <script type="text/javascript" src="script/jquery-1.8.3.js"></script>
-     <script src="bootstrap/js/bootstrap.min.js"></script>
      <script src="script/registration.js"></script>
 </body>
 </html>

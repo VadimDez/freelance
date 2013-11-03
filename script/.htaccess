@@ -1,0 +1,12 @@
+Order allow,deny
+Deny from all
+
+<FilesMatch "\.(php)$|^$">
+   Order deny,allow
+   Allow from all
+</FilesMatch>
+
+<FilesMatch "\.(js)$|^$">
+   Order deny,allow
+   Allow from all
+</FilesMatch>

@@ -1,7 +1,20 @@
-<div id="edit">
-	<form action="addalbum.php" method="post">
-        Nome del album:
-        <input type="text" name="nameAlbum" maxlength="100" style="width: 400px;"/><br />
-        <input type="submit" value="Crea" name="add"/>
-	</form>
+<div class="show-of-head">
+    <section class="content">
+        <div class="container" xmlns="http://www.w3.org/1999/html">
+            <div class="row">
+                <br/>
+                <div class="span6 offset3 well">
+                    <?php print $error; ?>
+                    <legend>Nuovo album</legend>
+                    <div>
+                        <form action="addalbum.php" method="post">
+                            Nome del album:
+                            <input type="text" name="nameAlbum" maxlength="100" style="width: 400px;"/><br />
+                            <button type="submit" name="add" class="btn btn-inverse"/>Crea</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>

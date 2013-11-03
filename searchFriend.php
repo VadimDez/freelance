@@ -1,7 +1,7 @@
 <?php
     //include('checklogin.php');
     include('dbConnect.php');
-    
+
     $friends = '';
     
     
@@ -16,8 +16,9 @@
             $listUsers = "0";
             $id    = $_GET['id'];
         }
-        
-        $name  = $_GET['search_name'];
+        include_once('model.php');
+        $parser = new parser();
+        $name  = $parser->textParsing($_GET['search_name']);
         
         
         $array = explode(' ', $name); // per dividere la stringa in NOME e COGNOME
@@ -76,6 +77,11 @@
                     $img        = $row['img'];
                     $city       = $row['city'];
                     $tipo       = $row['tipo'];
+
+                    // feed
+                    $feedPos		= $row['feedPos'];
+                    $feedNeg		= $row['feedNeg'];
+
                     if($tipo == 1)
                     {
                         $tipo = "Azienda";
@@ -85,7 +91,21 @@
                         $tipo = "Privato";
                     }
                     
-                    $friends .= '<table><tr><td><img src="' .  $img  . '" width="200"/></td><td valign="top"><a href="profile.php?id=' . $userId . '">' . $name . ' ' . $secondname . '</a><br/>' . $tipo . '<br/>' . $city . '</td></tr></table><hr/>';
+                    $friends .= '<table class="table">
+                        <tr>
+                            <td class="span2">
+                                <img src="' .  $img  . '" alt="" width="100" height="100" class="img-polaroid"/>
+                            </td>
+                            <td>
+                                <a href="profile.php?id=' . $userId . '">' . $name . ' ' . $secondname . '</a>
+                                <p>' . $tipo . '</p>
+                                <p>' . $city . '</p>
+                            </td>
+                            <td>
+                                <p class="text-right">Feed:<i class="icon-thumbs-up"></i><span class="text-success">' . $feedPos . '</span> <i class="icon-thumbs-down"></i><span class="text-error">' . $feedNeg . '</span></p>
+                            </td>
+                        </tr>
+                      </table>';
                 }
                 $friends .= '';
                 print "$friends";
@@ -107,5 +127,5 @@
         
     }
     
-    
+
 ?>

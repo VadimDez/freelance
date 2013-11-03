@@ -1,10 +1,14 @@
 <?php
+    session_start();
 	$idProj = $_POST['proj'];
 	$idUser = $_SESSION['idUser'];
 
+    include('model.php');
+    $consegna = new consegna;
+
 	if(isset($_POST['consegna']))
 	{
-		include('template/consegna.html');
+        $consegna->view("",$idProj);
 	}
 	else
 	{
@@ -12,7 +16,7 @@
 		{
 			if(!$_FILES['fileField']['tmp_name'])
 			{
-				$msg = '<font color="red">Prima devi selezionare l\'immagine.</font>';
+				$msg = '<font color="red">Prima devi selezionare il file.</font>';
 			}
 			else
 			{
@@ -32,28 +36,38 @@
 					else
 					{
 						$dirFile = "projectFiles/$idProj.rar";
-						$newfile = move_uploaded_file($_FILES['fileField']['tmp_name'],$dirFile);
-						//$msg = '<font color="green">L\'immagine del profile e\' modificata.</font>';
-						// query per caricare indirizzo dell'immagine nella database
-						//$query = mysql_query("UPDATE users SET img='$dirFile' WHERE idUser='$idUser'") or die(mysql_error());
-						include('model.php');
-						$consegna = new consegna;
-						$consegna->uploadFile($idProj,$dirFile);
+						if($newfile = move_uploaded_file($_FILES['fileField']['tmp_name'],$dirFile))
+                        {
+                            // query per caricare indirizzo dell'immagine nella database
+                            $comment = $_POST['comment'];
+                            $consegna->uploadFile($idProj,$dirFile,$comment);
+
+                            $msg = '<font color="green">Progetto e\' stato caricato.</font>';
+                        }
+                        else
+                        {
+                            $msg = '<font color="red">Errore durante caricamento.</font>';
+                        }
 					}
 				}
 			}
 		}
+        if($_POST['pay'])
+        {
+            $consegna->paypal($_POST['pay'],$idProj);
+        }
 	}
 	
 	if($msg)
 	{
-		include('template/consegna.html');	
+        $consegna->view($msg,$idProj);
 	}
 	else
 	{
 		if(!isset($_POST['consegna']) && !isset($_POST['caricamento']))
 		{
 			header('location:profile.php');
+            exit();
 		}
 	}
 	

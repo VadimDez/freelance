@@ -1,21 +1,113 @@
-<div class="container">
-  <div class="row-fluid">
-    <div class="span9">
-    <form class="form-search" action="search.php" method="get">
-      <input type="text" class="input-medium search-query" name="search">
-	  <button type="submit" class="btn">Search</button>
-	</form>
-      <?php
-      	print "$projects";
-        print $pages;
-      ?>
+<section id="slide" class="show-of-head slide hidden-phone">
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+                <div id="myCarousel" class="carousel slide">
+                    <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                    </ol>
+                    <!-- Carousel items -->
+                    <div class="carousel-inner">
+                        <div class="active item offset1 span10">
+                            <div class="span12">
+                                <div class="span3 offset1">
+                                    <h3 class="text-center">Pubblica il progetto.</h3>
+                                    <p class="text-center">
+                                        <img src="style/pic.png" alt=""/>
+                                    </p>
+                                    <p class="text-center">Pubblica il tuo annuncio per trovare un <a class="carus" href="http://it.wikipedia.org/wiki/Libero_professionista">freelancer</a>, sponsor o collaboratore.</p>
+                                </div>
+                                <div class="span3">
+                                    <h3 class="text-center">Cerca il progetto.</h3>
+                                    <p class="text-center">
+                                        <img src="style/search.png" alt=""/>
+                                    </p>
+                                    <p class="text-center">Cerca un progetto da sviluppare per guadagnare, per sponsorizzarlo o per collaborare.</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="span9 text-center">
+                                    <h3>
+                                        IFREELANCER.it - è una piattaforma per l'incontro online tra liberi professionisti, sponsor e datori di lavoro. È lo spazio per la realizzazione della tua idea.
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item offset1 span10">
+                            <h2>Risparmia con noi</h2>
+                            <div class="span3">
+                                <h1>Solo <strong>6%</strong>!</h1>
+                            </div>
+                            <div>
+                                <h3>
+                                    Noi prendiamo solo 6% di commissione indipendemente dal prezzo<br />
+                                    senza i costi aggiuntivi<br />
+                                    senza i costi per la registrazione<br />
+                                    senza perdere la professionalità
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="span3">
-    	<a href="newproj.php"><button class="btn btn-large btn-block" type="button">Nuovo progetto</button></a>
-      	<li class="nav-header">Categorie:</li>
-        <ul class="nav nav-pills nav-stacked">
-        	<?php print $categorie; ?>
-        </ul>
+</section>
+
+<section id="users" class="users">
+    <div class="container">
+        <div class="row">
+            <div class="span11 offset1">
+                <h3>Migliori utenti</h3>
+                <?php print $randomUsers;?>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
+</section>
+
+
+
+
+<section class="content" id="prog">
+    <div class="container">
+        <div class="row">
+            <div class="span3 visible-phone" id="menuMob">
+                <a href="newproj.php" class="btn btn-large btn-block"><i class="icon-pencil"></i>Nuovo progetto</a>
+                <hr>
+                <ul class="nav nav-list well">
+                    <li class="nav-header">Categorie:</li>
+                    <?php print $categorie; ?>
+                </ul>
+            </div>
+            <div class="span9">
+                <div class="span12">
+                    <form class="form-search span8" action="search.php" method="get">
+                        <div class="input-append">
+                            <input type="text" class="span7 search-query" name="search" placeholder="Cerca">
+                            <button type="submit" class="btn"><i class="icon-search"></i>Search</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="span12">
+                  <?php
+                    print $projects;
+                  ?>
+                </div>
+                <div>
+                    <?php print $pages;?>
+                </div>
+            </div>
+            <div class="span3 hidden-phone" id="menu">
+                <a href="newproj.php" class="btn btn-large btn-block"><i class="icon-pencil"></i>Nuovo progetto</a>
+                <hr>
+                <ul class="nav nav-list well">
+                    <li class="nav-header">Categorie:</li>
+                    <?php print $categorie; ?>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+</section>

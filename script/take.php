@@ -24,7 +24,7 @@
 	}
 	else
 	{
-		header('registration.php');	
+		header('login.php');
 	}
 
 ?>

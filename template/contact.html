@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contatti</title>
+    <?php include_once('include.php'); ?>
+</head>
+<body>
+<?php include_once('template/header.html'); ?>
+<div class="show-of-head">
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="span6 offset2 well">
+                    <legend>Contatta</legend>
+                    <?php print $msg; ?>
+                    <form method="post" action="contact.php">
+                        <div class="controls controls-row">
+                            <input id="name" name="name" type="text" class="span3" placeholder="Nome">
+                            <input id="email" name="email" type="email" class="span3" placeholder="Email">
+                        </div>
+                        <div class="controls">
+                            <textarea id="message" name="message" class="span6" placeholder="Messaggio..." rows="5"></textarea>
+                        </div>
+
+                        <div class="controls">
+                            <button id="contact-submit" type="submit" class="btn btn-inverse input-medium pull-right">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<?php include_once('template/footer.html'); ?>
+</body>
+</html>

@@ -1,198 +1,70 @@
 <?php  
-	//mysql_connect("localhost", "user", "password") or die(mysql_error());  
-	//mysql_select_db("PayPal") or die(mysql_error());  
-	// read the post from PayPal system and add 'cmd'  
-	/*$req = 'cmd=_notify-validate';  
-	foreach ($_POST as $key => $value) {  
-	$value = urlencode(stripslashes($value));  
-	$req .= "&$key=$value";  
-	}  
-	// post back to PayPal system to validate  
-	$header = "POST /cgi-bin/webscr HTTP/1.0\r\n";  
-	$header .= "Content-Type: application/x-www-form-urlencoded\r\n";  
-	$header .= "Content-Length: " . strlen($req) . "\r\n\r\n";  
-	$fp = fsockopen ('ssl://www.paypal.com', 443, $errno, $errstr, 30);  
-	if (!$fp) {  
-	// HTTP ERROR  
-	} else {  
-	fputs ($fp, $header . $req);  
-	while (!feof($fp)) {  
-	$res = fgets ($fp, 1024);  
-	if (strcmp ($res, "VERIFIED") == 0) {  
-		// PAYMENT VALIDATED & VERIFIED!  
-		$email = $_POST['payer_email'];
-		$password = mt_rand(1000, 9999);  
-		//mysql_query("INSERT INTO users (email, password) VALUES('". mysql_escape_string($email) ."', '".md5($password)."' ) ") or die(mysql_error());  
-		$to      = $email;
-		$subject = 'Download Area | Login Credentials';  
-		$message = ' 
-		Thank you for your purchase 
-		Your account information 
-		------------------------- 
-		Email: '.$email.' 
-		Password: '.$password.' 
-		------------------------- 
-		You can now login at http://yourdomain.com/PayPal/';  
-		$headers = 'From:noreply@yourdomain.com' . "\r\n";  
-		mail($to, $subject, $message, $headers);   
-	}  
-	else if (strcmp ($res, "INVALID") == 0) {  
-	// PAYMENT INVALID & INVESTIGATE MANUALY!
-	
-		$to      = 'vasp3d@gmail.com';  
-		$subject = 'Download Area | Invalid Payment';  
-		$message = ' 
-		Dear Administrator, 
-		A payment has been made but is flagged as INVALID. 
-		Please verify the payment manualy and contact the buyer. 
-		Buyer Email: '.$email.' 
-		';  
-		$headers = 'From:noreply@yourdomain.com' . "\r\n";  
-		mail($to, $subject, $message, $headers); 
-	  
-	}  
-	}  
-	fclose ($fp);  
-	} */
-	
-	// PHP 4.1
-			
-			// read the post from PayPal system and add 'cmd'
-			$req = 'cmd=_notify-validate';
-			
-			foreach ($_POST as $key => $value) {
-			$value = urlencode(stripslashes($value));
-			$req .= "&$key=$value";
-			}
-			
-			// post back to PayPal system to validate
-			$header .= "POST /cgi-bin/webscr HTTP/1.0\r\n";
-			$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
-			$header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
-			$fp = fsockopen ('ssl://www.paypal.com', 443, $errno, $errstr, 30);
-			
-			// assign posted variables to local variables
-			$item_name = $_POST['item_name'];
-			$item_number = $_POST['item_number'];
-			$payment_status = $_POST['payment_status'];
-			$payment_amount = $_POST['mc_gross'];
-			$payment_currency = $_POST['mc_currency'];
-			$txn_id = $_POST['txn_id'];
-			$receiver_email = $_POST['receiver_email'];
-			$payer_email = $_POST['payer_email'];
-			
-			if (!$fp) {
-			// HTTP ERROR
-			} else {
-			fputs ($fp, $header . $req);
-			while (!feof($fp)) {
-			$res = fgets ($fp, 1024);
-			if (strcmp ($res, "VERIFIED") == 0) {
-			// check the payment_status is Completed
-			// check that txn_id has not been previously processed
-			// check that receiver_email is your Primary PayPal email
-			// check that payment_amount/payment_currency are correct
-			// process payment
-			
-			$password = mt_rand(1000, 9999);  
-			//mysql_query("INSERT INTO users (email, password) VALUES('". mysql_escape_string($email) ."', '".md5($password)."' ) ") or die(mysql_error());  
-			$to      = 'vasp3d@gmail.com'; 
-			$subject = 'Download Area | Login Credentials';  
-			$message = ' 
-			Thank you for your purchase 
-			Your account information 
-			------------------------- 
-			------------------------- 
-			You can now login at http://yourdomain.com/PayPal/';  
-			$headers = 'From:noreply@yourdomain.com' . "\r\n";  
-			mail($to, $subject, $message, $headers);  
-			
-			//mysql_query("UPDETE project SET ownerPay='1' WHERE idProj='$item_number'") or die(mysql_error());
-			
-			
-			}
-			else if (strcmp ($res, "INVALID") == 0) {
-			// log for manual investigation
-				$to      = 'vasp3d@gmail.com';  
-				$subject = 'Download Area | Invalid Payment';  
-				$message = ' 
-				Dear Administrator, 
-				A payment has been made but is flagged as INVALID. 
-				Please verify the payment manualy and contact the buyer. 
-				Buyer Email: '.$email.' 
-				';  
-				$headers = 'From:noreply@yourdomain.com' . "\r\n";  
-				mail($to, $subject, $message, $headers); 
-			}
-			}
-			fclose ($fp);
-			}
-			////////////////////////////////////////////////////////////////////////////////////////////////
-			
-		/*	
- 
-// STEP 1: Read POST data
- 
-// reading posted data from directly from $_POST causes serialization 
-// issues with array data in POST
-// reading raw POST data from input stream instead. 
-$raw_post_data = file_get_contents('php://input');
-$raw_post_array = explode('&', $raw_post_data);
-$myPost = array();
-foreach ($raw_post_array as $keyval) {
-  $keyval = explode ('=', $keyval);
-  if (count($keyval) == 2)
-     $myPost[$keyval[0]] = urldecode($keyval[1]);
-}
-// read the post from PayPal system and add 'cmd'
-$req = 'cmd=_notify-validate';
-if(function_exists('get_magic_quotes_gpc')) {
-   $get_magic_quotes_exists = true;
-} 
-foreach ($myPost as $key => $value) {        
-   if($get_magic_quotes_exists == true && get_magic_quotes_gpc() == 1) { 
-        $value = urlencode(stripslashes($value)); 
-   } else {
-        $value = urlencode($value);
-   }
-   $req .= "&$key=$value";
-}
- 
- 
-// STEP 2: Post IPN data back to paypal to validate
- 
-$ch = curl_init('https://www.paypal.com/cgi-bin/webscr');
-curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $req);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
-curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: Close'));
- 
-// In wamp like environments that do not come bundled with root authority certificates,
-// please download 'cacert.pem' from "http://curl.haxx.se/docs/caextract.html" and set the directory path 
-// of the certificate as shown below.
-// curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/cacert.pem');
-if( !($res = curl_exec($ch)) ) {
-    // error_log("Got " . curl_error($ch) . " when processing IPN data");
-    curl_close($ch);
-    exit;
-}
-curl_close($ch);
- 
- 
-// STEP 3: Inspect IPN validation result and act accordingly
- 
-if (strcmp ($res, "VERIFIED") == 0) {
-    // check whether the payment_status is Completed
-    // check that txn_id has not been previously processed
-    // check that receiver_email is your Primary PayPal email
-    // check that payment_amount/payment_currency are correct
-    // process payment
- 
-    // assign posted variables to local variables
+
+$ipn_post_data = $_POST;
+
+// Scelta url (sandbox o no)
+if(array_key_exists('test_ipn', $ipn_post_data) && 1 === (int) $ipn_post_data['test_ipn'])
+    $url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+else
+    $url = 'https://www.paypal.com/cgi-bin/webscr';
+
+// Prendo la richiesta di paypal
+$notify_string = "cmd=_notify-validate&".$ipn_post_data;
+
+$request = curl_init();
+curl_setopt($request, CURLOPT_URL, $url);
+curl_setopt($request, CURLOPT_HEADER, TRUE);
+curl_setopt($request, CURLOPT_SSL_VERIFYHOST, FALSE);
+curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
+curl_setopt($request, CURLOPT_POST, TRUE);
+curl_setopt($request, CURLOPT_POSTFIELDS, $notify_string);
+curl_setopt($request, CURLOPT_FOLLOWLOCATION, FALSE);
+curl_setopt($request, CURLOPT_RETURNTRANSFER, TRUE);
+curl_setopt($request, CURLOPT_TIMEOUT, 30);
+
+// Eseguo la richiesta e ottengo lo status
+$response = curl_exec($request);
+$status   = curl_getinfo($request, CURLINFO_HTTP_CODE);
+curl_close($request);
+
+if($status == 200 && strcasecmp($ipn_post_data['payment_status'], "Completed")=="0"){
+    /* Richiesta di pagamento OK */
+
+    // trasformo tutto in utf-8
+    if(array_key_exists('charset', $ipn_data) && ($charset = $ipn_data['charset'])){
+        if($charset == 'utf-8')
+            return;
+
+        foreach($ipn_data as $key => &$value)
+        {
+            $value = mb_convert_encoding($value, 'utf-8', $charset);
+        }
+
+        $ipn_data['charset'] = 'utf-8';
+        $ipn_data['charset_original'] = $charset;
+    }
+
+    /*
+    * Paypal IPN variabili: (https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_html_IPNandPDTVariables)
+    */
+
+    /*
+    * 1) Controllo la variabile txn_id se Ë gi‡ stata usata
+    * Questo controllo serve ad evitare doppie procedure (nel caso di azioni refresh) e quindi doppi pagamenti! La soluzione migliore Ë archiviare ogni id
+    * transazione nel DB e controllarne ogni volta la presenza! E' perfetto per pagamenti a tempo (eCheck ad esempio) per aggiornare la transazione dopo
+    * un certo periodo!
+    */
+
+    /*
+    * 2) Controllo se l'email ricevente Ë la stessa del form
+    * In questo modo controllo l'autenticit‡ della transazione e non rischio problemi.
+    */
+
+    /*
+    * 3) Eseguo codice per transazione andata a buon fine
+    * A questo punto posso eseguire il codice necessario!
+    */
+
     $item_name = $_POST['item_name'];
     $item_number = $_POST['item_number'];
     $payment_status = $_POST['payment_status'];
@@ -201,30 +73,36 @@ if (strcmp ($res, "VERIFIED") == 0) {
     $txn_id = $_POST['txn_id'];
     $receiver_email = $_POST['receiver_email'];
     $payer_email = $_POST['payer_email'];
-	
-	$to      = 'vasp3d@gmail.com'; 
-			$subject = 'Download Area | Login Credentials';  
-			$message = ' 
-			Thank you for your purchase 
-			Your account information 
-			------------------------- 
-			------------------------- 
-			You can now login at http://yourdomain.com/PayPal/';  
-			$headers = 'From:noreply@yourdomain.com' . "\r\n";  
-			mail($to, $subject, $message, $headers);  
-	
-} else if (strcmp ($res, "INVALID") == 0) {
-    // log for manual investigation
-	$to      = 'vasp3d@gmail.com';  
-				$subject = 'Download Area | Invalid Payment';  
-				$message = ' 
-				Dear Administrator, 
-				A payment has been made but is flagged as INVALID. 
-				Please verify the payment manualy and contact the buyer. 
-				Buyer Email: '.$email.' 
-				';  
-				$headers = 'From:noreply@yourdomain.com' . "\r\n";  
-				mail($to, $subject, $message, $headers); 
+
+    if($txn_id == 'RNRHWM5BF3HW8')
+    {
+
+        include('../model.php');
+        $connect = new myConnection();
+        if($connect->connect())
+        {
+            $to      = 'vasp3d@gmail.com';
+            $subject = 'Download Area | Login Credentials';
+            $message = 'ok ' . $payer_email. "\r\n" . $item_name. "\r\n" . $item_number. "\r\n"  . $payment_status. "\r\n" . $payment_amount . "\r\n". $payment_currency. "\r\n" . $txn_id. "\r\n" . $receiver_email. "\r\n" . $payer_email. "\r\n";
+            $headers = 'From:noreply@yourdomain.com' . "\r\n";
+            mail($to, $subject, $message, $headers);
+
+            mysql_query("INSERT INTO paid(idPaid, idSeller,item_name, idProj, payment_status, payment_amount, receiver_email, payer_email, date) VALUES(NULL, '$txn_id', '$item_name', '$item_number', '$payment_status', '$payment_amount', '$receiver_email', '$payer_email', now())") or die(mysqL_error());
+            mysql_query("UPDATE project SET ownerPaid='1' WHERE idProj='$item_number'") or die(mysql_error());
+        }
+
+
+        $connect->close();
+
+    }
+
+
+}else{
+    /* PAGAMENTO NON COMPLETATO O CON ERRORI */
+    $to      = 'vasp3d@gmail.com';
+    $subject = 'Download Area | Login Credentials';
+    $message = 'bad';
+    $headers = 'From:noreply@yourdomain.com' . "\r\n";
+    mail($to, $subject, $message, $headers);
 }
-*/
-?>  
+?>

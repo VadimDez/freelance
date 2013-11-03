@@ -1,10 +1,11 @@
 <?php
-	include('dbConnect.php'); // definizioni della database;
-	
+	include_once('dbConnect.php'); // definizioni della database;
+	include_once('model.php');
 	//echo htmlspecialchars($_SESSION['username']);
 	if(isset($_GET['id']))
 	{
-		$idUser = $_GET['id'];
+        $parser = new parser();
+		$idUser = $parser->textParsing($_GET['id']);
 		if(mysql_num_rows(mysql_query("SELECT idUser FROM users WHERE idUser='$idUser'")) == 0)
 		{
 			header('location:index.php');
@@ -26,4 +27,5 @@
 	$day		= $row['day'];
 	$month		= $row['month'];
 	$year		= $row['year'];
+    $about		= $row['about'];
 ?>

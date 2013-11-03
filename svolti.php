@@ -21,7 +21,7 @@
 	if($idUser && !isset($_POST['action']))
 	{
 		
-		$query = mysql_query("SELECT * FROM vincenti,project WHERE vincenti.idProj=project.idProj AND vincenti.idUser='$idUser' ORDER BY project.dataProj ASC") or die(mysql_error());
+		$query = mysql_query("SELECT * FROM vincenti,project WHERE vincenti.idProj=project.idProj AND vincenti.idUser='$idUser' ORDER BY project.dataProj DESC") or die(mysql_error());
 		if(mysql_num_rows($query) == 0)
 		{
 			$risultato = "Non ci sono progetti";	
@@ -37,9 +37,13 @@
 						// se e' da confermare
 						$style = ' class="warning"';
 					}
+                    else
+                    {
+                        $style = '';
+                    }
 					
 					$risultato .= '<tr' . $style . '><td><a href="project.php?id=' . $idProj . '">' . $infoProj['nomeProj'] . '</a></td>';
-					if($infoProj['delivered'] == 0 && ($_SESSION['idUser'] == $idUser))
+					if($infoProj['delivered'] == 0 && ($_SESSION['idUser'] == $idUser) && $infoProj['tipoProj'] != 2)
 					{
 						$risultato	 .= '<td>
 											<form action="consegna.php" method="post">

@@ -6,7 +6,7 @@ $(document).ready(function() {
 			var feedValue 	= $("input[name='feedValue']:checked").val();
 			var feedText	= $.trim($("#feedText").val());
 			var idProj		= $("#proj").val();
-			alert(feedValue);
+
 			$.ajax({
             type: "POST",
             url: "script/feedback.php",
